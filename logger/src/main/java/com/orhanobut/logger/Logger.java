@@ -3,6 +3,9 @@ package com.orhanobut.logger;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.orhanobut.logger.Utils.checkNotNull;
 
 /**
@@ -21,7 +24,7 @@ import static com.orhanobut.logger.Utils.checkNotNull;
  * <pre><code>
  *   Logger.addLogAdapter(new AndroidLogAdapter());
  * </code></pre>
- *
+ * <p>
  * And use the appropriate static Logger methods.
  *
  * <pre><code>
@@ -73,21 +76,39 @@ public final class Logger {
   public static final int ERROR = 6;
   public static final int ASSERT = 7;
 
-  @NonNull private static Printer printer = new LoggerPrinter();
 
-  private Logger() {
-    //no instance
+  private String currentType;
+
+  @NonNull private Printer printer = new LoggerPrinter();
+
+  private static volatile Map<String, Logger> mInstanceMap = new HashMap<>();
+
+  private Logger(@LoggerType String type) {
+    this.currentType = type;
   }
 
-  public static void printer(@NonNull Printer printer) {
-    Logger.printer = checkNotNull(printer);
+  public static Logger getInstance(@LoggerType String type) {
+    Logger instance = mInstanceMap.get(type);
+    if (instance == null) {
+      synchronized (Logger.class) {
+        if (mInstanceMap.get(type) == null) {
+          instance = new Logger(type);
+          mInstanceMap.put(type, instance);
+        }
+      }
+    }
+    return instance;
   }
 
-  public static void addLogAdapter(@NonNull LogAdapter adapter) {
+  public void printer(@NonNull Printer printer) {
+    this.printer = checkNotNull(printer);
+  }
+
+  public void addLogAdapter(@NonNull LogAdapter adapter) {
     printer.addAdapter(checkNotNull(adapter));
   }
 
-  public static void clearLogAdapters() {
+  public void clearLogAdapters() {
     printer.clearLogAdapters();
   }
 
@@ -96,42 +117,42 @@ public final class Logger {
    * set during initialization. After this invocation, the general tag that's been set will
    * be used for the subsequent log calls
    */
-  public static Printer t(@Nullable String tag) {
+  public Printer t(@Nullable String tag) {
     return printer.t(tag);
   }
 
   /**
    * General log function that accepts all configurations as parameter
    */
-  public static void log(int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable throwable) {
+  public void log(int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable throwable) {
     printer.log(priority, tag, message, throwable);
   }
 
-  public static void d(@NonNull String message, @Nullable Object... args) {
+  public void d(@NonNull String message, @Nullable Object... args) {
     printer.d(message, args);
   }
 
-  public static void d(@Nullable Object object) {
+  public void d(@Nullable Object object) {
     printer.d(object);
   }
 
-  public static void e(@NonNull String message, @Nullable Object... args) {
+  public void e(@NonNull String message, @Nullable Object... args) {
     printer.e(null, message, args);
   }
 
-  public static void e(@Nullable Throwable throwable, @NonNull String message, @Nullable Object... args) {
+  public void e(@Nullable Throwable throwable, @NonNull String message, @Nullable Object... args) {
     printer.e(throwable, message, args);
   }
 
-  public static void i(@NonNull String message, @Nullable Object... args) {
+  public void i(@NonNull String message, @Nullable Object... args) {
     printer.i(message, args);
   }
 
-  public static void v(@NonNull String message, @Nullable Object... args) {
+  public void v(@NonNull String message, @Nullable Object... args) {
     printer.v(message, args);
   }
 
-  public static void w(@NonNull String message, @Nullable Object... args) {
+  public void w(@NonNull String message, @Nullable Object... args) {
     printer.w(message, args);
   }
 
@@ -139,21 +160,21 @@ public final class Logger {
    * Tip: Use this for exceptional situations to log
    * ie: Unexpected errors etc
    */
-  public static void wtf(@NonNull String message, @Nullable Object... args) {
+  public void wtf(@NonNull String message, @Nullable Object... args) {
     printer.wtf(message, args);
   }
 
   /**
    * Formats the given json content and print it
    */
-  public static void json(@Nullable String json) {
+  public void json(@Nullable String json) {
     printer.json(json);
   }
 
   /**
    * Formats the given xml content and print it
    */
-  public static void xml(@Nullable String xml) {
+  public void xml(@Nullable String xml) {
     printer.xml(xml);
   }
 

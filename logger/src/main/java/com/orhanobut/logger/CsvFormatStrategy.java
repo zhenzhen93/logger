@@ -22,7 +22,7 @@ public class CsvFormatStrategy implements FormatStrategy {
 
   private static final String NEW_LINE = System.getProperty("line.separator");
   private static final String NEW_LINE_REPLACEMENT = " <br> ";
-  private static final String SEPARATOR = ",";
+  private static final String SEPARATOR = " , ";
 
   @NonNull private final Date date;
   @NonNull private final SimpleDateFormat dateFormat;
@@ -52,7 +52,7 @@ public class CsvFormatStrategy implements FormatStrategy {
     StringBuilder builder = new StringBuilder();
 
     // machine-readable date/time
-    builder.append(Long.toString(date.getTime()));
+    builder.append(date.getTime());
 
     // human-readable date/time
     builder.append(SEPARATOR);
@@ -88,7 +88,7 @@ public class CsvFormatStrategy implements FormatStrategy {
   }
 
   public static final class Builder {
-    private static final int MAX_BYTES = 500 * 1024; // 500K averages to a 4000 lines per file
+    public static final int MAX_BYTES = 500 * 1024; // 500K averages to a 4000 lines per file
 
     Date date;
     SimpleDateFormat dateFormat;

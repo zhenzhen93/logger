@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+  <Button
+      android:id="@+id/btnLog"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="btnLog" />
+
+  <Button
+      android:id="@+id/btnFileOnly"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="fileOnly" />
+
+  <Button
+      android:id="@+id/btnLogcatFile"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="logcat_file" />
+
+  <Button
+      android:id="@+id/btnLogCatFileTrack"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="logcat_file_track" />
+
+</LinearLayout>
