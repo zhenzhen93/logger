@@ -19,6 +19,8 @@ class LoggerActivity : AppCompatActivity() {
 
     btnLog.setOnClickListener {
       LogX.debugOnly("仅用于调试阶段，logcat输出")
+      LogX.warnOnly("仅用于调试阶段，logcat输出")
+      LogX.errorOnly("仅用于调试阶段，logcat输出")
       LogX.debugZhen("专属调试人员，仅用于logcat输出")
     }
 

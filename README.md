@@ -9,50 +9,21 @@ Simple, pretty and powerful logger for android
 ### Setup
 Download
 ```groovy
-implementation 'com.orhanobut:logger:2.2.0'
+implementation 'com.github.zhenzhen93:logger:2.2.1'
 ```
 
 Initialize
-```java
-Logger.addLogAdapter(new AndroidLogAdapter());
+```kotlin
+LogX.register(context)
 ```
 And use
-```java
-Logger.d("hello");
+```kotlin
+ LogX.debugOnly("仅用于调试阶段，logcat输出")
+ LogX.debugZhen("专属调试人员，仅用于logcat输出")
 ```
 
 ### Output
 <img src='https://github.com/orhanobut/logger/blob/master/art/logger_output.png'/>
-
-
-### Options
-```java
-Logger.d("debug");
-Logger.e("error");
-Logger.w("warning");
-Logger.v("verbose");
-Logger.i("information");
-Logger.wtf("What a Terrible Failure");
-```
-
-String format arguments are supported
-```java
-Logger.d("hello %s", "world");
-```
-
-Collections are supported (only available for debug logs)
-```java
-Logger.d(MAP);
-Logger.d(SET);
-Logger.d(LIST);
-Logger.d(ARRAY);
-```
-
-Json and Xml support (output will be in debug level)
-```java
-Logger.json(JSON_CONTENT);
-Logger.xml(XML_CONTENT);
-```
 
 ### Advanced
 ```java

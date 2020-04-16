@@ -28,10 +28,10 @@ object LogX {
   /**
    * 日志初始化入口
    */
-  fun register(context: Context, logcatLoggable: Boolean, trackCallback: TrackCallback?, diskPath: String? = null) {
+  fun register(context: Context, logcatLoggable: Boolean? = true, trackCallback: TrackCallback? = null, diskPath: String? = null) {
     if (isRegistered) return
     isRegistered = true
-    this.isDebug = logcatLoggable
+    this.isDebug = logcatLoggable!!
     this.trackCallback = trackCallback
 
     //logcat日志配置输出
